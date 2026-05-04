@@ -47,7 +47,7 @@ public class ArbetsgivareAdapter
                   .build());
    }
 
-   public ArbetsgivareResponse getArbetsgivareInfo(ArbetsgivareRequest arbetsgivareRequest)
+   public ArbetsgivareResponse getArbetsgivareInfo(ArbetsgivareRequest arbetsgivareRequest) throws ArbetsgivareException
    {
       GetArbetsgivare200Response apiResponse;
       try
@@ -66,11 +66,18 @@ public class ArbetsgivareAdapter
          LOGGER.error(message);
          throw new ArbetsgivareException(message, ArbetsgivareErrorCode.BAD_REQUEST);
       }
-      catch (ProcessingException | WebApplicationException e)
+      catch (ProcessingException e)
       {
          var message = "Service unavailable when fetching arbetsgivare for personnummer " + arbetsgivareRequest.personnummer();
          LOGGER.error(message);
          throw new ArbetsgivareException(message, ArbetsgivareErrorCode.SERVICE_UNAVAILABLE);
+      }
+      catch (WebApplicationException e)
+      {
+         var message = "Unexpected server response when fetching arbetsgivare for personnummer "
+               + arbetsgivareRequest.personnummer();
+         LOGGER.error(message);
+         throw new ArbetsgivareException(message, ArbetsgivareErrorCode.UNEXPECTED_ERROR);
       }
 
       try
@@ -86,7 +93,7 @@ public class ArbetsgivareAdapter
       }
    }
 
-   public SpecificeradLonResponse getSpecificeradLon(SpecificeradLonRequest request)
+   public SpecificeradLonResponse getSpecificeradLon(SpecificeradLonRequest request) throws ArbetsgivareException
    {
       if (request.tomDatum().isBefore(request.fromDatum()))
       {
@@ -113,11 +120,17 @@ public class ArbetsgivareAdapter
          LOGGER.error(message);
          throw new ArbetsgivareException(message, ArbetsgivareErrorCode.BAD_REQUEST);
       }
-      catch (ProcessingException | WebApplicationException e)
+      catch (ProcessingException e)
       {
          var message = "Service unavailable when fetching specificeradLon for personnummer " + request.personnummer();
          LOGGER.error(message);
          throw new ArbetsgivareException(message, ArbetsgivareErrorCode.SERVICE_UNAVAILABLE);
+      }
+      catch (WebApplicationException e)
+      {
+         var message = "Unexpected server response when fetching specificeradLon for personnummer " + request.personnummer();
+         LOGGER.error(message);
+         throw new ArbetsgivareException(message, ArbetsgivareErrorCode.UNEXPECTED_ERROR);
       }
 
       try
