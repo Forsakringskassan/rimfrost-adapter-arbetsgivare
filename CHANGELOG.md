@@ -2,6 +2,14 @@
 
 Changelog of rimfrost-adapter-arbetsgivare.
 
+## 1.0.1 (2026-05-04)
+
+### Bug Fixes
+
+-  extends Exception. justerad mappning av felkoder. ([64439](https://github.com/Forsakringskassan/rimfrost-adapter-arbetsgivare/commit/64439f826736565) Ulf Slunga)  
+-  WebApplicationException mappas till UNEXPECTED_ERROR. metoder kastar ArbetsgivareException. ([3542d](https://github.com/Forsakringskassan/rimfrost-adapter-arbetsgivare/commit/3542de74de04b8a) Ulf Slunga)  
+-  throws ArbetsgivareException ([3799b](https://github.com/Forsakringskassan/rimfrost-adapter-arbetsgivare/commit/3799b446dd2c4a4) Ulf Slunga)  
+
 ## 1.0.0 (2026-04-29)
 
 ### Breaking changes
