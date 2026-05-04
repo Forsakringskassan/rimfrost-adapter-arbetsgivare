@@ -1,6 +1,6 @@
 package se.fk.rimfrost.adapter.arbetsgivare.exception;
 
-public class ArbetsgivareException extends RuntimeException
+public class ArbetsgivareException extends Exception
 {
 
    private final ArbetsgivareErrorCode errorCode;

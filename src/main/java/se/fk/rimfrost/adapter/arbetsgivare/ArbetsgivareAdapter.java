@@ -6,6 +6,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.ProcessingException;
+import jakarta.ws.rs.ServiceUnavailableException;
 import jakarta.ws.rs.WebApplicationException;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
@@ -66,13 +67,13 @@ public class ArbetsgivareAdapter
          LOGGER.error(message);
          throw new ArbetsgivareException(message, ArbetsgivareErrorCode.BAD_REQUEST);
       }
-      catch (ProcessingException e)
+      catch (ServiceUnavailableException e)
       {
          var message = "Service unavailable when fetching arbetsgivare for personnummer " + arbetsgivareRequest.personnummer();
          LOGGER.error(message);
          throw new ArbetsgivareException(message, ArbetsgivareErrorCode.SERVICE_UNAVAILABLE);
       }
-      catch (WebApplicationException e)
+      catch (ProcessingException | WebApplicationException e)
       {
          var message = "Unexpected server response when fetching arbetsgivare for personnummer "
                + arbetsgivareRequest.personnummer();
@@ -120,13 +121,13 @@ public class ArbetsgivareAdapter
          LOGGER.error(message);
          throw new ArbetsgivareException(message, ArbetsgivareErrorCode.BAD_REQUEST);
       }
-      catch (ProcessingException e)
+      catch (ServiceUnavailableException e)
       {
          var message = "Service unavailable when fetching specificeradLon for personnummer " + request.personnummer();
          LOGGER.error(message);
          throw new ArbetsgivareException(message, ArbetsgivareErrorCode.SERVICE_UNAVAILABLE);
       }
-      catch (WebApplicationException e)
+      catch (ProcessingException | WebApplicationException e)
       {
          var message = "Unexpected server response when fetching specificeradLon for personnummer " + request.personnummer();
          LOGGER.error(message);
