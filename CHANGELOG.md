@@ -2,16 +2,19 @@
 
 Changelog of rimfrost-adapter-arbetsgivare.
 
-## 1.1.1 (2026-06-04)
+## 1.1.3 (2026-06-23)
+
+### Bug Fixes
+
+-  Replace jaxrsclient with jersey ([655e7](https://github.com/Forsakringskassan/rimfrost-adapter-arbetsgivare/commit/655e7018f30ff77) Lars Persson)  
+
+## 1.1.2 (2026-06-04)
+
+## rimfrost-1.1 (2026-06-04)
 
 ### Bug Fixes
 
 -  Bump release version ([e236f](https://github.com/Forsakringskassan/rimfrost-adapter-arbetsgivare/commit/e236f38a9b46640) Lars Persson)  
-
-## rimfrost-1.1 (2026-06-03)
-
-### Bug Fixes
-
 -  bump rimfrost-arbetsgivare-api-jaxrs-spec to 2.0.1 ([60dae](https://github.com/Forsakringskassan/rimfrost-adapter-arbetsgivare/commit/60dae9321e9b39f) Ulf Slunga)  
 
 ## 1.0.1 (2026-05-04)
