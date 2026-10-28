@@ -2,6 +2,20 @@
 
 Changelog of rimfrost-adapter-arbetsgivare.
 
+## 1.1.5 (2026-10-28)
+
+### Bug Fixes
+
+-  Replace github workflows ([04b3b](https://github.com/Forsakringskassan/rimfrost-adapter-arbetsgivare/commit/04b3b3d1efb3f2b) Lars Persson)  
+-  **deps**  update dependency com.fasterxml.jackson.core:jackson-databind to v2.22.4 ([b9b7c](https://github.com/Forsakringskassan/rimfrost-adapter-arbetsgivare/commit/b9b7c74f53930da) renovate[bot])  
+-  **deps**  update dependency org.immutables:bom to v2.12.3 ([c5e3f](https://github.com/Forsakringskassan/rimfrost-adapter-arbetsgivare/commit/c5e3ff333c6a1b5) renovate[bot])  
+-  **deps**  update dependency io.quarkus:quarkus-bom to v3.40.1 ([13d95](https://github.com/Forsakringskassan/rimfrost-adapter-arbetsgivare/commit/13d95261f28f4dc) renovate[bot])  
+-  **deps**  update dependency com.fasterxml.jackson.core:jackson-databind to v2.22.3 ([7808a](https://github.com/Forsakringskassan/rimfrost-adapter-arbetsgivare/commit/7808aabfdbf0cb9) renovate[bot])  
+
+### Dependency updates
+
+- update forsakringskassan/.github digest to cbd74f1 ([3018f](https://github.com/Forsakringskassan/rimfrost-adapter-arbetsgivare/commit/3018f11118c35a6) renovate[bot])  
+- update forsakringskassan/.github digest to bfb01f7 ([94371](https://github.com/Forsakringskassan/rimfrost-adapter-arbetsgivare/commit/9437131f2d6f0b8) renovate[bot])  
 ## 1.1.4 (2026-09-22)
 
 ### Bug Fixes
