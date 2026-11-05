@@ -2,6 +2,12 @@
 
 Changelog of rimfrost-adapter-arbetsgivare.
 
+## 1.1.6 (2026-11-05)
+
+### Bug Fixes
+
+-  force jersey  nad map error by status code ([f87ef](https://github.com/Forsakringskassan/rimfrost-adapter-arbetsgivare/commit/f87effdb57b5ac8) Nils Elveros)  
+
 ## 1.1.5 (2026-10-28)
 
 ### Bug Fixes
