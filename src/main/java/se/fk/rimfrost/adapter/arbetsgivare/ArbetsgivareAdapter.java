@@ -3,16 +3,13 @@ package se.fk.rimfrost.adapter.arbetsgivare;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.BadRequestException;
-import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.ProcessingException;
-import jakarta.ws.rs.ServiceUnavailableException;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.glassfish.jersey.apache5.connector.Apache5ConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.client.proxy.WebResourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,10 +23,6 @@ import se.fk.rimfrost.api.arbetsgivare.jaxrsspec.controllers.generatedsource.Arb
 import se.fk.rimfrost.api.arbetsgivare.jaxrsspec.controllers.generatedsource.model.GetArbetsgivare200Response;
 import se.fk.rimfrost.api.arbetsgivare.jaxrsspec.controllers.generatedsource.model.SpecificeradLon;
 
-@SuppressWarnings(
-{
-      "unused", "LoggingSimilarMessage"
-})
 @ApplicationScoped
 public class ArbetsgivareAdapter
 {
@@ -48,7 +41,7 @@ public class ArbetsgivareAdapter
    {
       ClientConfig clientConfig = new ClientConfig();
       clientConfig.connectorProvider(new Apache5ConnectorProvider());
-      Client client = ClientBuilder.newClient(clientConfig);
+      Client client = JerseyClientBuilder.createClient(clientConfig);
       this.arbetsgivareClient = WebResourceFactory.newResource(
             ArbetsgivareControllerApi.class,
             client.target(arbetsgivareApiBaseUrl));
@@ -61,25 +54,11 @@ public class ArbetsgivareAdapter
       {
          apiResponse = arbetsgivareClient.getArbetsgivare(arbetsgivareRequest.personnummer());
       }
-      catch (NotFoundException e)
+      catch (WebApplicationException e)
       {
-         var message = "Arbetsgivare not found for personnummer " + arbetsgivareRequest.personnummer();
-         LOGGER.error(message);
-         throw new ArbetsgivareException(message, ArbetsgivareErrorCode.NOT_FOUND);
+         throw toArbetsgivareException(e, "arbetsgivare", arbetsgivareRequest.personnummer());
       }
-      catch (BadRequestException e)
-      {
-         var message = "Bad request when fetching arbetsgivare for personnummer " + arbetsgivareRequest.personnummer();
-         LOGGER.error(message);
-         throw new ArbetsgivareException(message, ArbetsgivareErrorCode.BAD_REQUEST);
-      }
-      catch (ServiceUnavailableException e)
-      {
-         var message = "Service unavailable when fetching arbetsgivare for personnummer " + arbetsgivareRequest.personnummer();
-         LOGGER.error(message);
-         throw new ArbetsgivareException(message, ArbetsgivareErrorCode.SERVICE_UNAVAILABLE);
-      }
-      catch (ProcessingException | WebApplicationException e)
+      catch (ProcessingException e)
       {
          var message = "Unexpected server response when fetching arbetsgivare for personnummer "
                + arbetsgivareRequest.personnummer();
@@ -115,25 +94,11 @@ public class ArbetsgivareAdapter
                request.fromDatum(),
                request.tomDatum());
       }
-      catch (NotFoundException e)
+      catch (WebApplicationException e)
       {
-         var message = "Arbetsgivare not found for personnummer " + request.personnummer();
-         LOGGER.error(message);
-         throw new ArbetsgivareException(message, ArbetsgivareErrorCode.NOT_FOUND);
+         throw toArbetsgivareException(e, "specificeradLon", request.personnummer());
       }
-      catch (BadRequestException e)
-      {
-         var message = "Bad request when fetching specificeradLon for personnummer " + request.personnummer();
-         LOGGER.error(message);
-         throw new ArbetsgivareException(message, ArbetsgivareErrorCode.BAD_REQUEST);
-      }
-      catch (ServiceUnavailableException e)
-      {
-         var message = "Service unavailable when fetching specificeradLon for personnummer " + request.personnummer();
-         LOGGER.error(message);
-         throw new ArbetsgivareException(message, ArbetsgivareErrorCode.SERVICE_UNAVAILABLE);
-      }
-      catch (ProcessingException | WebApplicationException e)
+      catch (ProcessingException e)
       {
          var message = "Unexpected server response when fetching specificeradLon for personnummer " + request.personnummer();
          LOGGER.error(message);
@@ -150,5 +115,32 @@ public class ArbetsgivareAdapter
          LOGGER.error(message);
          throw new ArbetsgivareException(message, ArbetsgivareErrorCode.UNEXPECTED_ERROR);
       }
+   }
+
+   private ArbetsgivareException toArbetsgivareException(WebApplicationException e, String resource, String personnummer)
+   {
+      return switch (e.getResponse().getStatus())
+      {
+         case 404 -> {
+            var message = "Arbetsgivare not found for personnummer " + personnummer;
+            LOGGER.error(message);
+            yield new ArbetsgivareException(message, ArbetsgivareErrorCode.NOT_FOUND);
+         }
+         case 400 -> {
+            var message = "Bad request when fetching " + resource + " for personnummer " + personnummer;
+            LOGGER.error(message);
+            yield new ArbetsgivareException(message, ArbetsgivareErrorCode.BAD_REQUEST);
+         }
+         case 503 -> {
+            var message = "Service unavailable when fetching " + resource + " for personnummer " + personnummer;
+            LOGGER.error(message);
+            yield new ArbetsgivareException(message, ArbetsgivareErrorCode.SERVICE_UNAVAILABLE);
+         }
+         default -> {
+            var message = "Unexpected server response when fetching " + resource + " for personnummer " + personnummer;
+            LOGGER.error(message);
+            yield new ArbetsgivareException(message, ArbetsgivareErrorCode.UNEXPECTED_ERROR);
+         }
+      };
    }
 }
