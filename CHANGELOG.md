@@ -2,6 +2,15 @@
 
 Changelog of rimfrost-adapter-arbetsgivare.
 
+## 1.1.7 (2026-11-11)
+
+### Bug Fixes
+
+-  Add support for ignoring unknown json properties ([cbbcf](https://github.com/Forsakringskassan/rimfrost-adapter-arbetsgivare/commit/cbbcfa07e7a832f) Lars Persson)  
+
+### Dependency updates
+
+- update forsakringskassan/.github digest to cbc0db8 ([4267a](https://github.com/Forsakringskassan/rimfrost-adapter-arbetsgivare/commit/4267a7ab595cc88) renovate[bot])  
 ## 1.1.6 (2026-11-05)
 
 ### Bug Fixes
