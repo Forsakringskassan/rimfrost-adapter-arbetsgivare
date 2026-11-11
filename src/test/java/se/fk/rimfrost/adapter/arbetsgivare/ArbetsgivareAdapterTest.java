@@ -140,6 +140,23 @@ public class ArbetsgivareAdapterTest
    }
 
    @Test
+   public void should_ignore_extra_property_during_get_arbetsgivare_info() throws ArbetsgivareException
+   {
+      var expectedArbetsgivareResponse = ImmutableArbetsgivareResponse.builder()
+            .organisationsnummer("987654-3212")
+            .organisationsnamn("Demo AB")
+            .arbetstidProcent(100)
+            .anstallningsdag(LocalDate.parse("2021-07-01"))
+            .sistaAnstallningsdag(null)
+            .build();
+      var request = ImmutableArbetsgivareRequest.builder()
+            .personnummer("19900101-5555")
+            .build();
+      var response = arbetsgivareAdapter.getArbetsgivareInfo(request);
+      assertEquals(expectedArbetsgivareResponse, response);
+   }
+
+   @Test
    public void should_throw_with_error_type_not_found_on_status_404_during_get_specificerad_lon()
    {
       server.stubFor(WireMock.get(WireMock.urlPathMatching("/arbetsgivare/.+/specificerad-lon"))

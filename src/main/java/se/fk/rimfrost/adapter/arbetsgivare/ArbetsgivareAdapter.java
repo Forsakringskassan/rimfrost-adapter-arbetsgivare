@@ -1,6 +1,7 @@
 package se.fk.rimfrost.adapter.arbetsgivare;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.ProcessingException;
@@ -36,15 +37,30 @@ public class ArbetsgivareAdapter
 
    private ArbetsgivareControllerApi arbetsgivareClient;
 
+   private Client client;
+
    @PostConstruct
    void init()
    {
       ClientConfig clientConfig = new ClientConfig();
       clientConfig.connectorProvider(new Apache5ConnectorProvider());
-      Client client = JerseyClientBuilder.createClient(clientConfig);
+      clientConfig.register(AdapterObjectMapperProvider.class);
+      client = JerseyClientBuilder.createClient(clientConfig);
       this.arbetsgivareClient = WebResourceFactory.newResource(
             ArbetsgivareControllerApi.class,
             client.target(arbetsgivareApiBaseUrl));
+   }
+
+   @PreDestroy
+   void destroy()
+   {
+      arbetsgivareClient = null;
+
+      if (client != null)
+      {
+         client.close();
+         client = null;
+      }
    }
 
    public ArbetsgivareResponse getArbetsgivareInfo(ArbetsgivareRequest arbetsgivareRequest) throws ArbetsgivareException
