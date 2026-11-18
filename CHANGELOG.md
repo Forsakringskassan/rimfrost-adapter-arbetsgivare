@@ -2,6 +2,13 @@
 
 Changelog of rimfrost-adapter-arbetsgivare.
 
+## 1.1.8 (2026-11-18)
+
+### Bug Fixes
+
+-  bump rimfrost-arbetsgivare-api-jaxrs-spec to 2.0.3 ([2ac83](https://github.com/Forsakringskassan/rimfrost-adapter-arbetsgivare/commit/2ac8386962c002d) Ulf Slunga)  
+-  **deps**  update dependency se.fk.rimfrost.api.arbetsgivare:rimfrost-arbetsgivare-api-jaxrs-spec to v2.0.3 ([04059](https://github.com/Forsakringskassan/rimfrost-adapter-arbetsgivare/commit/04059ac7125df95) renovate[bot])  
+
 ## 1.1.7 (2026-11-11)
 
 ### Bug Fixes
